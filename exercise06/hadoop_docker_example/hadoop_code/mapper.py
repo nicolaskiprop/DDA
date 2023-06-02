@@ -28,12 +28,12 @@ for line in sys.stdin:
         numTokens = len(tokens)
         for i in range(numTokens - n + 1):
             wordTuple = tuple(tokens[i:i+n])
-            sourceWord = wordTuple[0]
-            linksCount[sourceWord].update(wordTuple[1:])
+            Word = wordTuple[0]
+            linksCount[Word].update(wordTuple[1:])
 
-for sourceWord in linksCount:
-    numLinks = len(linksCount[sourceWord])
-    print(f'{sourceWord}\t{numLinks}')
+for Word in linksCount:
+    numLinks = len(linksCount[Word])
+    print(f'{Word}\t{numLinks}')
 
 
 #part 1
