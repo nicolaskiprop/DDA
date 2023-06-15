@@ -1,18 +1,33 @@
 import sys
-treshold = 100
-linkCounter = 0
+import re
 
+current_target = None
+current_sources = []
+target = None
+sources = []
+
+#input comes from STDIN
 for line in sys.stdin:
-    word, count = line.strip().split('\t')
-    count = int(count)
-    if count > treshold:
-        print(f'{word}\t{count}')
+    #remove leading and trailing whitespace
+    line = line.strip()
+    #parse the input we got from mapper.py
+    target, source = line.split('[')
+    sources = source.split('')
+    sources = re.sub(pattern='\W', repl=' ', string=sources)
 
 
-#     linkCounter += 1
-# print(f'Number of links: {linkCounter}')
+    if current_target == target:
+        for s in sources:
+            if s not in current_sources:
+                current_sources.append(s)
+            else:
+                if current_target:
+                    if len(current_target) > 100:
+                        print(f'{current_target} {len(current_sources)}')
+                        current_target = target
+                        current_sources = sources
 
-# import sys
-# for line in sys.stdin:
-#     line = line.strip()
-#     print(line)
+            if len(current_sources) > 100:
+                print(f'{current_target} {len(current_sources)}')
+                current_target = target
+                current_sources = sources
